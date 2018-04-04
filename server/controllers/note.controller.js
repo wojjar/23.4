@@ -24,7 +24,13 @@ export function addNote(req, res) {
     }
     Lane.findOne({ id: laneId })
       .then(lane => {
-        lane.notes.push(saved);
+        console.log('lane: ', lane);
+        if (!lane) {
+          res.status(500).send(`Lane with id "${laneId}" is not defined `);
+          return 0;
+        }
+      
+        lane.notes.push(saved) 
         return lane.save();
       })
       .then(() => {
